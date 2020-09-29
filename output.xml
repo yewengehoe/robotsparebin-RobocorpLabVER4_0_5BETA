@@ -1,0 +1,3411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.2.2 (Python 3.7.5 on linux)" generated="20200929 23:16:49.046" rpa="true">
+<suite id="s1" name="Tasks" source="/home/yeh/Python_projRoot/robotsparebin-complete/tasks.robot">
+<test id="s1-t1" name="Insert the sales data for the week and export it as a PDF">
+<kw name="Open The Intranet Website">
+<kw name="Open Available Browser" library="RPA.Browser">
+<doc>Opens the first available browser in the system in preferred order, or the
+given browser (``browser_selection``).</doc>
+<arguments>
+<arg>https://robotsparebinindustries.com/</arg>
+</arguments>
+<msg timestamp="20200929 23:16:49.730" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20200929 23:16:51.237" level="INFO">Created Chrome browser with arguments: --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20200929 23:16:51.237" level="INFO" html="yes">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Headless&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20200929 23:16:51.237" level="INFO">Opening url 'https://robotsparebinindustries.com/'</msg>
+<status status="PASS" starttime="20200929 23:16:49.729" endtime="20200929 23:16:52.784"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:49.729" endtime="20200929 23:16:52.785"></status>
+</kw>
+<kw name="Log In">
+<kw name="Get Secret" library="RPA.Robocloud.Secrets">
+<doc>Read a secret from the configured source, e.g. Robocloud Vault,
+and return it as a ``Secret`` object.</doc>
+<arguments>
+<arg>robotsparebin</arg>
+</arguments>
+<assign>
+<var>${secret}</var>
+</assign>
+<msg timestamp="20200929 23:16:52.787" level="INFO">protecting keyword: rpa.robocloud.secrets.get_secret</msg>
+<msg timestamp="20200929 23:16:52.793" level="INFO">Log level changed from NONE to INFO.</msg>
+<status status="PASS" starttime="20200929 23:16:52.787" endtime="20200929 23:16:52.792"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>id:username</arg>
+<arg>${secret}[username]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:52.794" level="INFO">Typing text 'maria' into text field 'id:username'.</msg>
+<status status="PASS" starttime="20200929 23:16:52.793" endtime="20200929 23:16:52.934"></status>
+</kw>
+<kw name="Input Password" library="RPA.Browser">
+<doc>Types the given password into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>id:password</arg>
+<arg>${secret}[password]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:52.935" level="INFO">Typing password into text field 'id:password'.</msg>
+<msg timestamp="20200929 23:16:52.999" level="INFO">Temporally setting log level to: NONE</msg>
+<msg timestamp="20200929 23:16:53.093" level="INFO">Log level changed from NONE to INFO.</msg>
+<status status="PASS" starttime="20200929 23:16:52.934" endtime="20200929 23:16:53.093"></status>
+</kw>
+<kw name="Submit Form" library="RPA.Browser">
+<doc>Submits a form identified by ``locator``.</doc>
+<msg timestamp="20200929 23:16:53.094" level="INFO">Submitting form 'None'.</msg>
+<status status="PASS" starttime="20200929 23:16:53.094" endtime="20200929 23:16:53.147"></status>
+</kw>
+<kw name="Wait Until Page Contains Element" library="RPA.Browser">
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<arguments>
+<arg>id:sales-form</arg>
+</arguments>
+<status status="PASS" starttime="20200929 23:16:53.147" endtime="20200929 23:16:53.599"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:52.786" endtime="20200929 23:16:53.599"></status>
+</kw>
+<kw name="Download The Excel file">
+<kw name="Download" library="RPA.HTTP">
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<arguments>
+<arg>https://robotsparebinindustries.com/SalesData.xlsx</arg>
+<arg>overwrite=True</arg>
+</arguments>
+<msg timestamp="20200929 23:16:53.601" level="INFO">Creating a new HTTP session</msg>
+<msg timestamp="20200929 23:16:53.601" level="INFO">Creating Session using : alias=rpasession_alias.httpsrobotsparebinindustries.com, url=https://robotsparebinindustries.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<msg timestamp="20200929 23:16:53.602" level="INFO">GET Request using : uri=/SalesData.xlsx, params=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.24.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+data=None 
+json=None</msg>
+<status status="PASS" starttime="20200929 23:16:53.600" endtime="20200929 23:16:53.899"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:53.600" endtime="20200929 23:16:53.899"></status>
+</kw>
+<kw name="Fill The Form Using The Data From The Excel File">
+<kw name="Open Workbook" library="RPA.Excel.Files">
+<doc>Open an existing Excel workbook.</doc>
+<arguments>
+<arg>SalesData.xlsx</arg>
+</arguments>
+<msg timestamp="20200929 23:16:53.928" level="INFO">Opened workbook: &lt;RPA.Excel.Files.XlsxWorkbook object at 0x7feafa2c1b50&gt;</msg>
+<status status="PASS" starttime="20200929 23:16:53.900" endtime="20200929 23:16:53.928"></status>
+</kw>
+<kw name="Read Worksheet As Table" library="RPA.Excel.Files">
+<doc>Read the content of a worksheet into a Table container. Allows
+sorting/filtering/manipulating using the `RPA.Tables` library.</doc>
+<arguments>
+<arg>header=True</arg>
+</arguments>
+<assign>
+<var>${salesReps}</var>
+</assign>
+<msg timestamp="20200929 23:16:53.930" level="INFO">Created table: Table(columns=['First Name', 'Last Name', 'Sales', 'Sales Target'], rows=51)</msg>
+<msg timestamp="20200929 23:16:53.930" level="INFO">${salesReps} = Table(columns=['First Name', 'Last Name', 'Sales', 'Sales Target'], rows=50)</msg>
+<status status="PASS" starttime="20200929 23:16:53.929" endtime="20200929 23:16:53.930"></status>
+</kw>
+<kw name="Close Workbook" library="RPA.Excel.Files">
+<doc>Close the active workbook.</doc>
+<msg timestamp="20200929 23:16:53.931" level="INFO">Closing workbook: &lt;RPA.Excel.Files.XlsxWorkbook object at 0x7feafa2c1b50&gt;</msg>
+<status status="PASS" starttime="20200929 23:16:53.931" endtime="20200929 23:16:53.931"></status>
+</kw>
+<kw name="${salesRep} IN [ @{salesReps} ]" type="for">
+<kw name="${salesRep} = {'First Name': 'David', 'Last Name': 'Heazel', 'Sales': 80193, 'Sales Target': 30000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:53.933" level="INFO">Typing text 'David' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:53.932" endtime="20200929 23:16:54.059"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:54.060" level="INFO">Typing text 'Heazel' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:54.059" endtime="20200929 23:16:54.193"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:54.195" level="INFO">Typing text '80193' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:54.194" endtime="20200929 23:16:54.315"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:54.316" level="INFO">${target_as_string} = 30000</msg>
+<status status="PASS" starttime="20200929 23:16:54.315" endtime="20200929 23:16:54.317"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:54.318" level="INFO">Selecting options from selection list 'salestarget' by value 30000.</msg>
+<status status="PASS" starttime="20200929 23:16:54.317" endtime="20200929 23:16:54.413"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:16:54.413" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:16:54.413" endtime="20200929 23:16:54.614"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:53.932" endtime="20200929 23:16:54.615"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:53.932" endtime="20200929 23:16:54.615"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Conte', 'Last Name': 'Mascetti', 'Sales': 141182, 'Sales Target': 35000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:54.619" level="INFO">Typing text 'Conte' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:54.617" endtime="20200929 23:16:54.761"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:54.762" level="INFO">Typing text 'Mascetti' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:54.762" endtime="20200929 23:16:54.893"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:54.894" level="INFO">Typing text '141182' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:54.894" endtime="20200929 23:16:55.023"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:55.024" level="INFO">${target_as_string} = 35000</msg>
+<status status="PASS" starttime="20200929 23:16:55.024" endtime="20200929 23:16:55.025"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.025" level="INFO">Selecting options from selection list 'salestarget' by value 35000.</msg>
+<status status="PASS" starttime="20200929 23:16:55.025" endtime="20200929 23:16:55.117"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.118" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:16:55.118" endtime="20200929 23:16:55.303"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:54.616" endtime="20200929 23:16:55.303"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:54.615" endtime="20200929 23:16:55.304"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Dallon', 'Last Name': 'Seals', 'Sales': 61456, 'Sales Target': 15000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.306" level="INFO">Typing text 'Dallon' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:55.305" endtime="20200929 23:16:55.446"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.447" level="INFO">Typing text 'Seals' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:55.446" endtime="20200929 23:16:55.570"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.571" level="INFO">Typing text '61456' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:55.571" endtime="20200929 23:16:55.689"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:55.691" level="INFO">${target_as_string} = 15000</msg>
+<status status="PASS" starttime="20200929 23:16:55.690" endtime="20200929 23:16:55.691"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.692" level="INFO">Selecting options from selection list 'salestarget' by value 15000.</msg>
+<status status="PASS" starttime="20200929 23:16:55.691" endtime="20200929 23:16:55.782"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.783" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:16:55.783" endtime="20200929 23:16:55.965"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:55.304" endtime="20200929 23:16:55.966"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:55.304" endtime="20200929 23:16:55.966"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Jocelyn', 'Last Name': 'Thomsson', 'Sales': 99354, 'Sales Target': 95000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:55.968" level="INFO">Typing text 'Jocelyn' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:55.967" endtime="20200929 23:16:56.108"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:56.109" level="INFO">Typing text 'Thomsson' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:56.108" endtime="20200929 23:16:56.235"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:56.236" level="INFO">Typing text '99354' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:56.235" endtime="20200929 23:16:56.358"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:56.360" level="INFO">${target_as_string} = 95000</msg>
+<status status="PASS" starttime="20200929 23:16:56.359" endtime="20200929 23:16:56.360"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:56.361" level="INFO">Selecting options from selection list 'salestarget' by value 95000.</msg>
+<status status="PASS" starttime="20200929 23:16:56.360" endtime="20200929 23:16:56.451"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:16:56.452" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:16:56.452" endtime="20200929 23:16:56.853"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:55.966" endtime="20200929 23:16:56.854"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:55.966" endtime="20200929 23:16:56.854"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Yoko', 'Last Name': 'Flecknell', 'Sales': 139701, 'Sales Target': 50000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:56.856" level="INFO">Typing text 'Yoko' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:56.855" endtime="20200929 23:16:56.982"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:56.983" level="INFO">Typing text 'Flecknell' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:56.982" endtime="20200929 23:16:57.113"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:57.114" level="INFO">Typing text '139701' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:57.113" endtime="20200929 23:16:57.240"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:57.241" level="INFO">${target_as_string} = 50000</msg>
+<status status="PASS" starttime="20200929 23:16:57.240" endtime="20200929 23:16:57.242"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:57.243" level="INFO">Selecting options from selection list 'salestarget' by value 50000.</msg>
+<status status="PASS" starttime="20200929 23:16:57.242" endtime="20200929 23:16:57.335"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:16:57.336" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:16:57.336" endtime="20200929 23:16:57.520"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:56.854" endtime="20200929 23:16:57.520"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:56.854" endtime="20200929 23:16:57.521"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Ninnette', 'Last Name': 'Heinssen', 'Sales': 63808, 'Sales Target': 25000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:57.523" level="INFO">Typing text 'Ninnette' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:57.522" endtime="20200929 23:16:57.670"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:57.672" level="INFO">Typing text 'Heinssen' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:57.671" endtime="20200929 23:16:57.854"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:57.856" level="INFO">Typing text '63808' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:57.855" endtime="20200929 23:16:58.049"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:58.052" level="INFO">${target_as_string} = 25000</msg>
+<status status="PASS" starttime="20200929 23:16:58.050" endtime="20200929 23:16:58.052"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:58.052" level="INFO">Selecting options from selection list 'salestarget' by value 25000.</msg>
+<status status="PASS" starttime="20200929 23:16:58.052" endtime="20200929 23:16:58.162"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:16:58.164" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:16:58.163" endtime="20200929 23:16:58.648"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:57.521" endtime="20200929 23:16:58.649"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:57.521" endtime="20200929 23:16:58.649"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Ahmed', 'Last Name': 'Vasnetsov', 'Sales': 50211, 'Sales Target': 60000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:58.650" level="INFO">Typing text 'Ahmed' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:58.650" endtime="20200929 23:16:58.780"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:58.782" level="INFO">Typing text 'Vasnetsov' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:58.780" endtime="20200929 23:16:58.920"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:58.921" level="INFO">Typing text '50211' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:58.920" endtime="20200929 23:16:59.047"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:59.048" level="INFO">${target_as_string} = 60000</msg>
+<status status="PASS" starttime="20200929 23:16:59.047" endtime="20200929 23:16:59.048"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:59.048" level="INFO">Selecting options from selection list 'salestarget' by value 60000.</msg>
+<status status="PASS" starttime="20200929 23:16:59.048" endtime="20200929 23:16:59.139"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:16:59.140" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:16:59.139" endtime="20200929 23:16:59.538"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:58.649" endtime="20200929 23:16:59.538"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:58.649" endtime="20200929 23:16:59.539"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Pearline', 'Last Name': 'Fenton', 'Sales': 78556, 'Sales Target': 35000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:59.541" level="INFO">Typing text 'Pearline' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:16:59.540" endtime="20200929 23:16:59.685"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:59.686" level="INFO">Typing text 'Fenton' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:16:59.686" endtime="20200929 23:16:59.813"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:16:59.814" level="INFO">Typing text '78556' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:16:59.813" endtime="20200929 23:16:59.948"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:16:59.949" level="INFO">${target_as_string} = 35000</msg>
+<status status="PASS" starttime="20200929 23:16:59.949" endtime="20200929 23:16:59.949"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:16:59.951" level="INFO">Selecting options from selection list 'salestarget' by value 35000.</msg>
+<status status="PASS" starttime="20200929 23:16:59.950" endtime="20200929 23:17:00.042"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:00.044" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:00.043" endtime="20200929 23:17:00.238"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:59.539" endtime="20200929 23:17:00.238"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:59.539" endtime="20200929 23:17:00.238"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Lelah', 'Last Name': 'Yewdale', 'Sales': 122695, 'Sales Target': 100000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:00.240" level="INFO">Typing text 'Lelah' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:00.240" endtime="20200929 23:17:00.398"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:00.398" level="INFO">Typing text 'Yewdale' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:00.398" endtime="20200929 23:17:00.528"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:00.530" level="INFO">Typing text '122695' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:00.529" endtime="20200929 23:17:00.654"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:00.655" level="INFO">${target_as_string} = 100000</msg>
+<status status="PASS" starttime="20200929 23:17:00.655" endtime="20200929 23:17:00.655"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:00.656" level="INFO">Selecting options from selection list 'salestarget' by value 100000.</msg>
+<status status="PASS" starttime="20200929 23:17:00.655" endtime="20200929 23:17:00.767"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:00.769" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:00.768" endtime="20200929 23:17:00.984"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:00.239" endtime="20200929 23:17:00.985"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:00.238" endtime="20200929 23:17:00.985"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Belinda', 'Last Name': 'Blumenthal', 'Sales': 115410, 'Sales Target': 70000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:00.988" level="INFO">Typing text 'Belinda' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:00.986" endtime="20200929 23:17:01.129"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:01.130" level="INFO">Typing text 'Blumenthal' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:01.130" endtime="20200929 23:17:01.263"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:01.265" level="INFO">Typing text '115410' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:01.264" endtime="20200929 23:17:01.398"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:01.400" level="INFO">${target_as_string} = 70000</msg>
+<status status="PASS" starttime="20200929 23:17:01.399" endtime="20200929 23:17:01.400"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:01.401" level="INFO">Selecting options from selection list 'salestarget' by value 70000.</msg>
+<status status="PASS" starttime="20200929 23:17:01.400" endtime="20200929 23:17:01.493"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:01.494" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:01.494" endtime="20200929 23:17:01.929"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:00.985" endtime="20200929 23:17:01.930"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:00.985" endtime="20200929 23:17:01.930"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Antoni', 'Last Name': 'Degoe', 'Sales': 106991, 'Sales Target': 75000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:01.933" level="INFO">Typing text 'Antoni' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:01.932" endtime="20200929 23:17:02.065"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:02.066" level="INFO">Typing text 'Degoe' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:02.066" endtime="20200929 23:17:02.195"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:02.196" level="INFO">Typing text '106991' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:02.196" endtime="20200929 23:17:02.316"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:02.318" level="INFO">${target_as_string} = 75000</msg>
+<status status="PASS" starttime="20200929 23:17:02.317" endtime="20200929 23:17:02.318"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:02.319" level="INFO">Selecting options from selection list 'salestarget' by value 75000.</msg>
+<status status="PASS" starttime="20200929 23:17:02.318" endtime="20200929 23:17:02.415"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:02.416" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:02.416" endtime="20200929 23:17:02.601"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:01.931" endtime="20200929 23:17:02.601"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:01.931" endtime="20200929 23:17:02.601"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Donnamarie', 'Last Name': 'Watts', 'Sales': 25924, 'Sales Target': 85000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:02.602" level="INFO">Typing text 'Donnamarie' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:02.602" endtime="20200929 23:17:02.765"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:02.766" level="INFO">Typing text 'Watts' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:02.765" endtime="20200929 23:17:02.897"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:02.897" level="INFO">Typing text '25924' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:02.897" endtime="20200929 23:17:03.029"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:03.030" level="INFO">${target_as_string} = 85000</msg>
+<status status="PASS" starttime="20200929 23:17:03.029" endtime="20200929 23:17:03.030"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:03.030" level="INFO">Selecting options from selection list 'salestarget' by value 85000.</msg>
+<status status="PASS" starttime="20200929 23:17:03.030" endtime="20200929 23:17:03.117"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:03.118" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:03.117" endtime="20200929 23:17:04.167"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:02.601" endtime="20200929 23:17:04.167"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:02.601" endtime="20200929 23:17:04.167"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Anabella', 'Last Name': 'Blindermann', 'Sales': 43564, 'Sales Target': 85000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:04.171" level="INFO">Typing text 'Anabella' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:04.170" endtime="20200929 23:17:04.306"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:04.307" level="INFO">Typing text 'Blindermann' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:04.306" endtime="20200929 23:17:04.440"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:04.441" level="INFO">Typing text '43564' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:04.441" endtime="20200929 23:17:04.560"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:04.562" level="INFO">${target_as_string} = 85000</msg>
+<status status="PASS" starttime="20200929 23:17:04.561" endtime="20200929 23:17:04.562"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:04.563" level="INFO">Selecting options from selection list 'salestarget' by value 85000.</msg>
+<status status="PASS" starttime="20200929 23:17:04.562" endtime="20200929 23:17:04.647"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:04.649" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:04.648" endtime="20200929 23:17:05.052"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:04.168" endtime="20200929 23:17:05.053"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:04.168" endtime="20200929 23:17:05.053"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Fred', 'Last Name': 'Mengoni', 'Sales': 131725, 'Sales Target': 5000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:05.055" level="INFO">Typing text 'Fred' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:05.054" endtime="20200929 23:17:05.198"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:05.199" level="INFO">Typing text 'Mengoni' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:05.198" endtime="20200929 23:17:05.320"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:05.321" level="INFO">Typing text '131725' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:05.320" endtime="20200929 23:17:05.452"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:05.453" level="INFO">${target_as_string} = 5000</msg>
+<status status="PASS" starttime="20200929 23:17:05.452" endtime="20200929 23:17:05.453"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:05.453" level="INFO">Selecting options from selection list 'salestarget' by value 5000.</msg>
+<status status="PASS" starttime="20200929 23:17:05.453" endtime="20200929 23:17:05.511"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:05.512" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:05.511" endtime="20200929 23:17:05.720"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:05.054" endtime="20200929 23:17:05.720"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:05.053" endtime="20200929 23:17:05.721"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Nathanil', 'Last Name': 'Bragg', 'Sales': 100336, 'Sales Target': 35000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:05.724" level="INFO">Typing text 'Nathanil' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:05.723" endtime="20200929 23:17:05.879"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:05.880" level="INFO">Typing text 'Bragg' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:05.879" endtime="20200929 23:17:06.013"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.014" level="INFO">Typing text '100336' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:06.014" endtime="20200929 23:17:06.137"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:06.138" level="INFO">${target_as_string} = 35000</msg>
+<status status="PASS" starttime="20200929 23:17:06.137" endtime="20200929 23:17:06.138"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.139" level="INFO">Selecting options from selection list 'salestarget' by value 35000.</msg>
+<status status="PASS" starttime="20200929 23:17:06.139" endtime="20200929 23:17:06.239"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.240" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:06.239" endtime="20200929 23:17:06.436"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:05.721" endtime="20200929 23:17:06.436"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:05.721" endtime="20200929 23:17:06.436"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Casar', 'Last Name': 'Kubek', 'Sales': 143750, 'Sales Target': 100000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.438" level="INFO">Typing text 'Casar' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:06.437" endtime="20200929 23:17:06.572"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.572" level="INFO">Typing text 'Kubek' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:06.572" endtime="20200929 23:17:06.698"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.699" level="INFO">Typing text '143750' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:06.698" endtime="20200929 23:17:06.815"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:06.816" level="INFO">${target_as_string} = 100000</msg>
+<status status="PASS" starttime="20200929 23:17:06.815" endtime="20200929 23:17:06.816"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.817" level="INFO">Selecting options from selection list 'salestarget' by value 100000.</msg>
+<status status="PASS" starttime="20200929 23:17:06.816" endtime="20200929 23:17:06.913"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:06.914" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:06.914" endtime="20200929 23:17:07.344"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:06.437" endtime="20200929 23:17:07.344"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:06.437" endtime="20200929 23:17:07.345"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Myrtle', 'Last Name': 'Puddle', 'Sales': 22729, 'Sales Target': 10000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:07.348" level="INFO">Typing text 'Myrtle' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:07.346" endtime="20200929 23:17:07.483"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:07.484" level="INFO">Typing text 'Puddle' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:07.483" endtime="20200929 23:17:07.613"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:07.613" level="INFO">Typing text '22729' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:07.613" endtime="20200929 23:17:07.732"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:07.733" level="INFO">${target_as_string} = 10000</msg>
+<status status="PASS" starttime="20200929 23:17:07.732" endtime="20200929 23:17:07.733"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:07.734" level="INFO">Selecting options from selection list 'salestarget' by value 10000.</msg>
+<status status="PASS" starttime="20200929 23:17:07.733" endtime="20200929 23:17:07.821"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:07.821" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:07.821" endtime="20200929 23:17:08.252"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:07.345" endtime="20200929 23:17:08.253"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:07.345" endtime="20200929 23:17:08.253"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Devi', 'Last Name': 'Oag', 'Sales': 140919, 'Sales Target': 10000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:08.258" level="INFO">Typing text 'Devi' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:08.257" endtime="20200929 23:17:08.386"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:08.387" level="INFO">Typing text 'Oag' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:08.387" endtime="20200929 23:17:08.514"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:08.516" level="INFO">Typing text '140919' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:08.515" endtime="20200929 23:17:08.638"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:08.639" level="INFO">${target_as_string} = 10000</msg>
+<status status="PASS" starttime="20200929 23:17:08.639" endtime="20200929 23:17:08.639"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:08.641" level="INFO">Selecting options from selection list 'salestarget' by value 10000.</msg>
+<status status="PASS" starttime="20200929 23:17:08.640" endtime="20200929 23:17:08.735"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:08.736" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:08.735" endtime="20200929 23:17:08.929"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:08.255" endtime="20200929 23:17:08.930"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:08.254" endtime="20200929 23:17:08.930"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Emyle', 'Last Name': &quot;O'Driscole&quot;, 'Sales': 70981, 'Sales Target': 10000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:08.932" level="INFO">Typing text 'Emyle' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:08.932" endtime="20200929 23:17:09.060"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:09.062" level="INFO">Typing text 'O'Driscole' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:09.061" endtime="20200929 23:17:09.190"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:09.192" level="INFO">Typing text '70981' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:09.191" endtime="20200929 23:17:09.314"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:09.316" level="INFO">${target_as_string} = 10000</msg>
+<status status="PASS" starttime="20200929 23:17:09.315" endtime="20200929 23:17:09.316"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:09.317" level="INFO">Selecting options from selection list 'salestarget' by value 10000.</msg>
+<status status="PASS" starttime="20200929 23:17:09.316" endtime="20200929 23:17:09.407"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:09.408" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:09.407" endtime="20200929 23:17:09.831"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:08.931" endtime="20200929 23:17:09.831"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:08.931" endtime="20200929 23:17:09.831"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Mickie', 'Last Name': 'Linbohm', 'Sales': 80516, 'Sales Target': 10000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:09.833" level="INFO">Typing text 'Mickie' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:09.832" endtime="20200929 23:17:09.965"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:09.966" level="INFO">Typing text 'Linbohm' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:09.966" endtime="20200929 23:17:10.094"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:10.095" level="INFO">Typing text '80516' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:10.095" endtime="20200929 23:17:10.228"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:10.229" level="INFO">${target_as_string} = 10000</msg>
+<status status="PASS" starttime="20200929 23:17:10.228" endtime="20200929 23:17:10.229"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:10.230" level="INFO">Selecting options from selection list 'salestarget' by value 10000.</msg>
+<status status="PASS" starttime="20200929 23:17:10.230" endtime="20200929 23:17:10.322"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:10.323" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:10.322" endtime="20200929 23:17:10.730"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:09.832" endtime="20200929 23:17:10.730"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:09.832" endtime="20200929 23:17:10.730"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Isaac', 'Last Name': 'Asimov', 'Sales': 118852, 'Sales Target': 65000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:10.733" level="INFO">Typing text 'Isaac' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:10.732" endtime="20200929 23:17:10.857"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:10.858" level="INFO">Typing text 'Asimov' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:10.857" endtime="20200929 23:17:11.001"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:11.003" level="INFO">Typing text '118852' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:11.002" endtime="20200929 23:17:11.128"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:11.130" level="INFO">${target_as_string} = 65000</msg>
+<status status="PASS" starttime="20200929 23:17:11.128" endtime="20200929 23:17:11.130"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:11.131" level="INFO">Selecting options from selection list 'salestarget' by value 65000.</msg>
+<status status="PASS" starttime="20200929 23:17:11.131" endtime="20200929 23:17:11.216"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:11.217" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:11.216" endtime="20200929 23:17:11.648"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:10.731" endtime="20200929 23:17:11.648"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:10.731" endtime="20200929 23:17:11.648"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Florence', 'Last Name': 'Mundow', 'Sales': 122953, 'Sales Target': 10000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:11.650" level="INFO">Typing text 'Florence' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:11.650" endtime="20200929 23:17:11.789"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:11.790" level="INFO">Typing text 'Mundow' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:11.789" endtime="20200929 23:17:11.921"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:11.922" level="INFO">Typing text '122953' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:11.921" endtime="20200929 23:17:12.048"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:12.050" level="INFO">${target_as_string} = 10000</msg>
+<status status="PASS" starttime="20200929 23:17:12.049" endtime="20200929 23:17:12.050"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:12.051" level="INFO">Selecting options from selection list 'salestarget' by value 10000.</msg>
+<status status="PASS" starttime="20200929 23:17:12.050" endtime="20200929 23:17:12.144"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:12.145" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:12.145" endtime="20200929 23:17:12.346"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:11.649" endtime="20200929 23:17:12.347"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:11.649" endtime="20200929 23:17:12.347"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Mahalia', 'Last Name': 'Goodee', 'Sales': 46997, 'Sales Target': 45000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:12.348" level="INFO">Typing text 'Mahalia' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:12.348" endtime="20200929 23:17:12.483"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:12.485" level="INFO">Typing text 'Goodee' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:12.484" endtime="20200929 23:17:12.611"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:12.612" level="INFO">Typing text '46997' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:12.611" endtime="20200929 23:17:12.743"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:12.745" level="INFO">${target_as_string} = 45000</msg>
+<status status="PASS" starttime="20200929 23:17:12.744" endtime="20200929 23:17:12.745"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:12.746" level="INFO">Selecting options from selection list 'salestarget' by value 45000.</msg>
+<status status="PASS" starttime="20200929 23:17:12.745" endtime="20200929 23:17:12.834"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:12.836" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:12.835" endtime="20200929 23:17:13.023"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:12.347" endtime="20200929 23:17:13.023"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:12.347" endtime="20200929 23:17:13.023"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Christy', 'Last Name': 'Iwaszkiewicz', 'Sales': 91465, 'Sales Target': 100000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:13.025" level="INFO">Typing text 'Christy' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:13.025" endtime="20200929 23:17:13.172"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:13.174" level="INFO">Typing text 'Iwaszkiewicz' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:13.173" endtime="20200929 23:17:13.315"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:13.317" level="INFO">Typing text '91465' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:13.316" endtime="20200929 23:17:13.449"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:13.450" level="INFO">${target_as_string} = 100000</msg>
+<status status="PASS" starttime="20200929 23:17:13.450" endtime="20200929 23:17:13.451"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:13.452" level="INFO">Selecting options from selection list 'salestarget' by value 100000.</msg>
+<status status="PASS" starttime="20200929 23:17:13.451" endtime="20200929 23:17:13.547"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:13.548" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:13.548" endtime="20200929 23:17:13.982"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:13.024" endtime="20200929 23:17:13.982"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:13.024" endtime="20200929 23:17:13.982"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Madelyn', 'Last Name': 'Sire', 'Sales': 66825, 'Sales Target': 60000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:13.985" level="INFO">Typing text 'Madelyn' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:13.984" endtime="20200929 23:17:14.120"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:14.121" level="INFO">Typing text 'Sire' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:14.120" endtime="20200929 23:17:14.241"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:14.242" level="INFO">Typing text '66825' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:14.241" endtime="20200929 23:17:14.363"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:14.365" level="INFO">${target_as_string} = 60000</msg>
+<status status="PASS" starttime="20200929 23:17:14.364" endtime="20200929 23:17:14.365"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:14.366" level="INFO">Selecting options from selection list 'salestarget' by value 60000.</msg>
+<status status="PASS" starttime="20200929 23:17:14.365" endtime="20200929 23:17:14.463"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:14.464" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:14.464" endtime="20200929 23:17:14.888"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:13.983" endtime="20200929 23:17:14.889"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:13.983" endtime="20200929 23:17:14.889"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Thurstan', 'Last Name': 'Karus', 'Sales': 131244, 'Sales Target': 50000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:14.893" level="INFO">Typing text 'Thurstan' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:14.891" endtime="20200929 23:17:15.036"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:15.037" level="INFO">Typing text 'Karus' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:15.037" endtime="20200929 23:17:15.172"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:15.173" level="INFO">Typing text '131244' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:15.172" endtime="20200929 23:17:15.304"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:15.305" level="INFO">${target_as_string} = 50000</msg>
+<status status="PASS" starttime="20200929 23:17:15.305" endtime="20200929 23:17:15.305"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:15.307" level="INFO">Selecting options from selection list 'salestarget' by value 50000.</msg>
+<status status="PASS" starttime="20200929 23:17:15.306" endtime="20200929 23:17:15.398"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:15.399" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:15.399" endtime="20200929 23:17:15.836"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:14.890" endtime="20200929 23:17:15.836"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:14.890" endtime="20200929 23:17:15.837"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Bibi', 'Last Name': 'Rosita', 'Sales': 94131, 'Sales Target': 30000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:15.839" level="INFO">Typing text 'Bibi' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:15.839" endtime="20200929 23:17:15.968"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:15.969" level="INFO">Typing text 'Rosita' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:15.968" endtime="20200929 23:17:16.108"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:16.110" level="INFO">Typing text '94131' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:16.109" endtime="20200929 23:17:16.234"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:16.236" level="INFO">${target_as_string} = 30000</msg>
+<status status="PASS" starttime="20200929 23:17:16.235" endtime="20200929 23:17:16.236"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:16.236" level="INFO">Selecting options from selection list 'salestarget' by value 30000.</msg>
+<status status="PASS" starttime="20200929 23:17:16.236" endtime="20200929 23:17:16.331"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:16.332" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:16.332" endtime="20200929 23:17:16.754"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:15.838" endtime="20200929 23:17:16.755"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:15.837" endtime="20200929 23:17:16.756"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Abbe', 'Last Name': 'Aldcorn', 'Sales': 97489, 'Sales Target': 60000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:16.758" level="INFO">Typing text 'Abbe' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:16.758" endtime="20200929 23:17:16.889"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:16.890" level="INFO">Typing text 'Aldcorn' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:16.889" endtime="20200929 23:17:17.023"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:17.025" level="INFO">Typing text '97489' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:17.024" endtime="20200929 23:17:17.150"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:17.151" level="INFO">${target_as_string} = 60000</msg>
+<status status="PASS" starttime="20200929 23:17:17.150" endtime="20200929 23:17:17.151"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:17.152" level="INFO">Selecting options from selection list 'salestarget' by value 60000.</msg>
+<status status="PASS" starttime="20200929 23:17:17.151" endtime="20200929 23:17:17.244"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:17.245" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:17.245" endtime="20200929 23:17:17.680"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:16.757" endtime="20200929 23:17:17.681"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:16.756" endtime="20200929 23:17:17.681"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Ariadne', 'Last Name': 'Kiessel', 'Sales': 86637, 'Sales Target': 70000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:17.682" level="INFO">Typing text 'Ariadne' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:17.682" endtime="20200929 23:17:17.818"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:17.819" level="INFO">Typing text 'Kiessel' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:17.819" endtime="20200929 23:17:17.947"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:17.948" level="INFO">Typing text '86637' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:17.947" endtime="20200929 23:17:18.076"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:18.078" level="INFO">${target_as_string} = 70000</msg>
+<status status="PASS" starttime="20200929 23:17:18.076" endtime="20200929 23:17:18.078"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:18.079" level="INFO">Selecting options from selection list 'salestarget' by value 70000.</msg>
+<status status="PASS" starttime="20200929 23:17:18.079" endtime="20200929 23:17:18.164"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:18.165" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:18.164" endtime="20200929 23:17:18.565"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:17.681" endtime="20200929 23:17:18.566"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:17.681" endtime="20200929 23:17:18.566"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Tiffany', 'Last Name': 'Emerine', 'Sales': 124313, 'Sales Target': 50000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:18.575" level="INFO">Typing text 'Tiffany' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:18.568" endtime="20200929 23:17:18.718"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:18.718" level="INFO">Typing text 'Emerine' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:18.718" endtime="20200929 23:17:18.854"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:18.855" level="INFO">Typing text '124313' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:18.855" endtime="20200929 23:17:18.981"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:18.982" level="INFO">${target_as_string} = 50000</msg>
+<status status="PASS" starttime="20200929 23:17:18.981" endtime="20200929 23:17:18.982"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:18.983" level="INFO">Selecting options from selection list 'salestarget' by value 50000.</msg>
+<status status="PASS" starttime="20200929 23:17:18.983" endtime="20200929 23:17:19.075"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:19.076" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:19.076" endtime="20200929 23:17:19.285"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:18.567" endtime="20200929 23:17:19.285"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:18.567" endtime="20200929 23:17:19.286"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Jelene', 'Last Name': 'Pridden', 'Sales': 91489, 'Sales Target': 35000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:19.288" level="INFO">Typing text 'Jelene' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:19.287" endtime="20200929 23:17:19.415"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:19.417" level="INFO">Typing text 'Pridden' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:19.415" endtime="20200929 23:17:19.543"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:19.545" level="INFO">Typing text '91489' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:19.544" endtime="20200929 23:17:19.673"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:19.674" level="INFO">${target_as_string} = 35000</msg>
+<status status="PASS" starttime="20200929 23:17:19.673" endtime="20200929 23:17:19.674"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:19.675" level="INFO">Selecting options from selection list 'salestarget' by value 35000.</msg>
+<status status="PASS" starttime="20200929 23:17:19.674" endtime="20200929 23:17:19.765"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:19.766" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:19.766" endtime="20200929 23:17:20.190"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:19.286" endtime="20200929 23:17:20.190"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:19.286" endtime="20200929 23:17:20.190"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Claus', 'Last Name': 'Bawcock', 'Sales': 140602, 'Sales Target': 25000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:20.192" level="INFO">Typing text 'Claus' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:20.191" endtime="20200929 23:17:20.341"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:20.343" level="INFO">Typing text 'Bawcock' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:20.342" endtime="20200929 23:17:20.472"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:20.473" level="INFO">Typing text '140602' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:20.473" endtime="20200929 23:17:20.602"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:20.604" level="INFO">${target_as_string} = 25000</msg>
+<status status="PASS" starttime="20200929 23:17:20.603" endtime="20200929 23:17:20.604"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:20.604" level="INFO">Selecting options from selection list 'salestarget' by value 25000.</msg>
+<status status="PASS" starttime="20200929 23:17:20.604" endtime="20200929 23:17:20.699"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:20.700" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:20.699" endtime="20200929 23:17:20.912"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:20.191" endtime="20200929 23:17:20.912"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:20.190" endtime="20200929 23:17:20.913"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Ameline', 'Last Name': 'Olivello', 'Sales': 60101, 'Sales Target': 80000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:20.915" level="INFO">Typing text 'Ameline' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:20.915" endtime="20200929 23:17:21.054"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:21.055" level="INFO">Typing text 'Olivello' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:21.055" endtime="20200929 23:17:21.203"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:21.206" level="INFO">Typing text '60101' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:21.204" endtime="20200929 23:17:21.330"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:21.331" level="INFO">${target_as_string} = 80000</msg>
+<status status="PASS" starttime="20200929 23:17:21.330" endtime="20200929 23:17:21.331"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:21.332" level="INFO">Selecting options from selection list 'salestarget' by value 80000.</msg>
+<status status="PASS" starttime="20200929 23:17:21.332" endtime="20200929 23:17:21.425"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:21.426" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:21.425" endtime="20200929 23:17:21.846"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:20.913" endtime="20200929 23:17:21.846"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:20.913" endtime="20200929 23:17:21.847"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Alikee', 'Last Name': 'Kohtler', 'Sales': 141102, 'Sales Target': 15000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:21.848" level="INFO">Typing text 'Alikee' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:21.848" endtime="20200929 23:17:21.985"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:21.986" level="INFO">Typing text 'Kohtler' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:21.985" endtime="20200929 23:17:22.114"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:22.115" level="INFO">Typing text '141102' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:22.114" endtime="20200929 23:17:22.251"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:22.252" level="INFO">${target_as_string} = 15000</msg>
+<status status="PASS" starttime="20200929 23:17:22.252" endtime="20200929 23:17:22.252"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:22.253" level="INFO">Selecting options from selection list 'salestarget' by value 15000.</msg>
+<status status="PASS" starttime="20200929 23:17:22.252" endtime="20200929 23:17:22.350"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:22.350" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:22.350" endtime="20200929 23:17:22.778"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:21.847" endtime="20200929 23:17:22.779"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:21.847" endtime="20200929 23:17:22.779"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Cathleen', 'Last Name': 'Tinklin', 'Sales': 113898, 'Sales Target': 35000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:22.781" level="INFO">Typing text 'Cathleen' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:22.780" endtime="20200929 23:17:22.923"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:22.925" level="INFO">Typing text 'Tinklin' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:22.924" endtime="20200929 23:17:23.115"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:23.117" level="INFO">Typing text '113898' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:23.116" endtime="20200929 23:17:23.313"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:23.314" level="INFO">${target_as_string} = 35000</msg>
+<status status="PASS" starttime="20200929 23:17:23.314" endtime="20200929 23:17:23.314"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:23.316" level="INFO">Selecting options from selection list 'salestarget' by value 35000.</msg>
+<status status="PASS" starttime="20200929 23:17:23.315" endtime="20200929 23:17:23.430"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:23.430" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:23.430" endtime="20200929 23:17:23.899"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:22.779" endtime="20200929 23:17:23.899"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:22.779" endtime="20200929 23:17:23.899"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Flossie', 'Last Name': 'Gurr', 'Sales': 111068, 'Sales Target': 85000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:23.903" level="INFO">Typing text 'Flossie' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:23.902" endtime="20200929 23:17:24.046"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:24.047" level="INFO">Typing text 'Gurr' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:24.046" endtime="20200929 23:17:24.177"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:24.178" level="INFO">Typing text '111068' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:24.177" endtime="20200929 23:17:24.303"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:24.305" level="INFO">${target_as_string} = 85000</msg>
+<status status="PASS" starttime="20200929 23:17:24.304" endtime="20200929 23:17:24.305"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:24.306" level="INFO">Selecting options from selection list 'salestarget' by value 85000.</msg>
+<status status="PASS" starttime="20200929 23:17:24.305" endtime="20200929 23:17:24.397"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:24.398" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:24.398" endtime="20200929 23:17:24.615"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:23.901" endtime="20200929 23:17:24.616"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:23.900" endtime="20200929 23:17:24.616"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Milena', 'Last Name': 'Gudeman', 'Sales': 24287, 'Sales Target': 45000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:24.618" level="INFO">Typing text 'Milena' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:24.617" endtime="20200929 23:17:24.766"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:24.766" level="INFO">Typing text 'Gudeman' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:24.766" endtime="20200929 23:17:24.900"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:24.902" level="INFO">Typing text '24287' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:24.901" endtime="20200929 23:17:25.030"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:25.032" level="INFO">${target_as_string} = 45000</msg>
+<status status="PASS" starttime="20200929 23:17:25.031" endtime="20200929 23:17:25.032"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:25.032" level="INFO">Selecting options from selection list 'salestarget' by value 45000.</msg>
+<status status="PASS" starttime="20200929 23:17:25.032" endtime="20200929 23:17:25.131"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:25.132" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:25.132" endtime="20200929 23:17:25.546"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:24.616" endtime="20200929 23:17:25.547"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:24.616" endtime="20200929 23:17:25.547"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Bliss', 'Last Name': 'Burgess', 'Sales': 138542, 'Sales Target': 35000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:25.549" level="INFO">Typing text 'Bliss' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:25.549" endtime="20200929 23:17:25.685"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:25.686" level="INFO">Typing text 'Burgess' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:25.685" endtime="20200929 23:17:25.817"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:25.819" level="INFO">Typing text '138542' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:25.818" endtime="20200929 23:17:25.940"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:25.941" level="INFO">${target_as_string} = 35000</msg>
+<status status="PASS" starttime="20200929 23:17:25.940" endtime="20200929 23:17:25.941"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:25.942" level="INFO">Selecting options from selection list 'salestarget' by value 35000.</msg>
+<status status="PASS" starttime="20200929 23:17:25.941" endtime="20200929 23:17:26.033"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:26.034" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:26.033" endtime="20200929 23:17:26.467"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:25.548" endtime="20200929 23:17:26.468"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:25.547" endtime="20200929 23:17:26.468"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Donia', 'Last Name': 'Messenbird', 'Sales': 52436, 'Sales Target': 75000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:26.470" level="INFO">Typing text 'Donia' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:26.469" endtime="20200929 23:17:26.595"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:26.596" level="INFO">Typing text 'Messenbird' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:26.595" endtime="20200929 23:17:26.723"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:26.724" level="INFO">Typing text '52436' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:26.723" endtime="20200929 23:17:26.889"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:26.891" level="INFO">${target_as_string} = 75000</msg>
+<status status="PASS" starttime="20200929 23:17:26.890" endtime="20200929 23:17:26.891"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:26.892" level="INFO">Selecting options from selection list 'salestarget' by value 75000.</msg>
+<status status="PASS" starttime="20200929 23:17:26.892" endtime="20200929 23:17:27.022"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:27.025" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:27.023" endtime="20200929 23:17:27.303"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:26.469" endtime="20200929 23:17:27.304"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:26.468" endtime="20200929 23:17:27.308"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Jemie', 'Last Name': 'Tunnacliffe', 'Sales': 64130, 'Sales Target': 50000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:27.313" level="INFO">Typing text 'Jemie' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:27.311" endtime="20200929 23:17:27.557"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:27.559" level="INFO">Typing text 'Tunnacliffe' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:27.558" endtime="20200929 23:17:27.696"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:27.697" level="INFO">Typing text '64130' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:27.696" endtime="20200929 23:17:27.885"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:27.888" level="INFO">${target_as_string} = 50000</msg>
+<status status="PASS" starttime="20200929 23:17:27.886" endtime="20200929 23:17:27.888"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:27.891" level="INFO">Selecting options from selection list 'salestarget' by value 50000.</msg>
+<status status="PASS" starttime="20200929 23:17:27.889" endtime="20200929 23:17:28.021"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:28.023" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:28.022" endtime="20200929 23:17:28.328"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:27.309" endtime="20200929 23:17:28.328"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:27.309" endtime="20200929 23:17:28.328"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Gaylord', 'Last Name': 'Uebel', 'Sales': 27872, 'Sales Target': 90000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:28.330" level="INFO">Typing text 'Gaylord' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:28.330" endtime="20200929 23:17:28.529"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:28.530" level="INFO">Typing text 'Uebel' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:28.530" endtime="20200929 23:17:28.740"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:28.742" level="INFO">Typing text '27872' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:28.741" endtime="20200929 23:17:28.854"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:28.856" level="INFO">${target_as_string} = 90000</msg>
+<status status="PASS" starttime="20200929 23:17:28.855" endtime="20200929 23:17:28.856"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:28.857" level="INFO">Selecting options from selection list 'salestarget' by value 90000.</msg>
+<status status="PASS" starttime="20200929 23:17:28.856" endtime="20200929 23:17:28.941"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:28.942" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:28.941" endtime="20200929 23:17:29.355"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:28.329" endtime="20200929 23:17:29.355"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:28.329" endtime="20200929 23:17:29.356"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Rufus', 'Last Name': 'Bewlie', 'Sales': 119258, 'Sales Target': 85000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:29.364" level="INFO">Typing text 'Rufus' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:29.357" endtime="20200929 23:17:29.490"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:29.491" level="INFO">Typing text 'Bewlie' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:29.491" endtime="20200929 23:17:29.622"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:29.623" level="INFO">Typing text '119258' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:29.622" endtime="20200929 23:17:29.754"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:29.755" level="INFO">${target_as_string} = 85000</msg>
+<status status="PASS" starttime="20200929 23:17:29.754" endtime="20200929 23:17:29.755"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:29.756" level="INFO">Selecting options from selection list 'salestarget' by value 85000.</msg>
+<status status="PASS" starttime="20200929 23:17:29.755" endtime="20200929 23:17:29.847"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:29.848" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:29.848" endtime="20200929 23:17:30.332"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:29.356" endtime="20200929 23:17:30.333"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:29.356" endtime="20200929 23:17:30.333"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Jenine', 'Last Name': 'Kidby', 'Sales': 133576, 'Sales Target': 60000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:30.335" level="INFO">Typing text 'Jenine' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:30.335" endtime="20200929 23:17:30.497"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:30.498" level="INFO">Typing text 'Kidby' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:30.497" endtime="20200929 23:17:30.638"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:30.639" level="INFO">Typing text '133576' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:30.638" endtime="20200929 23:17:30.772"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:30.775" level="INFO">${target_as_string} = 60000</msg>
+<status status="PASS" starttime="20200929 23:17:30.773" endtime="20200929 23:17:30.775"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:30.776" level="INFO">Selecting options from selection list 'salestarget' by value 60000.</msg>
+<status status="PASS" starttime="20200929 23:17:30.776" endtime="20200929 23:17:30.863"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:30.864" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:30.863" endtime="20200929 23:17:31.067"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:30.334" endtime="20200929 23:17:31.067"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:30.333" endtime="20200929 23:17:31.068"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Hortensia', 'Last Name': 'Leal', 'Sales': 29530, 'Sales Target': 70000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:31.070" level="INFO">Typing text 'Hortensia' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:31.069" endtime="20200929 23:17:31.212"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:31.213" level="INFO">Typing text 'Leal' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:31.213" endtime="20200929 23:17:31.338"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:31.339" level="INFO">Typing text '29530' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:31.338" endtime="20200929 23:17:31.494"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:31.496" level="INFO">${target_as_string} = 70000</msg>
+<status status="PASS" starttime="20200929 23:17:31.495" endtime="20200929 23:17:31.497"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:31.498" level="INFO">Selecting options from selection list 'salestarget' by value 70000.</msg>
+<status status="PASS" starttime="20200929 23:17:31.497" endtime="20200929 23:17:31.603"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:31.604" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:31.603" endtime="20200929 23:17:32.069"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:31.068" endtime="20200929 23:17:32.069"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:31.068" endtime="20200929 23:17:32.069"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Regina', 'Last Name': 'Gurling', 'Sales': 86186, 'Sales Target': 15000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:32.072" level="INFO">Typing text 'Regina' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:32.071" endtime="20200929 23:17:32.204"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:32.204" level="INFO">Typing text 'Gurling' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:32.204" endtime="20200929 23:17:32.328"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:32.329" level="INFO">Typing text '86186' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:32.329" endtime="20200929 23:17:32.449"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:32.450" level="INFO">${target_as_string} = 15000</msg>
+<status status="PASS" starttime="20200929 23:17:32.449" endtime="20200929 23:17:32.450"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:32.451" level="INFO">Selecting options from selection list 'salestarget' by value 15000.</msg>
+<status status="PASS" starttime="20200929 23:17:32.451" endtime="20200929 23:17:32.547"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:32.549" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:32.548" endtime="20200929 23:17:32.965"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:32.070" endtime="20200929 23:17:32.966"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:32.070" endtime="20200929 23:17:32.966"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Valenka', 'Last Name': 'Tantrum', 'Sales': 137708, 'Sales Target': 65000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:32.968" level="INFO">Typing text 'Valenka' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:32.967" endtime="20200929 23:17:33.097"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:33.098" level="INFO">Typing text 'Tantrum' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:33.097" endtime="20200929 23:17:33.226"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:33.227" level="INFO">Typing text '137708' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:33.227" endtime="20200929 23:17:33.351"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:33.352" level="INFO">${target_as_string} = 65000</msg>
+<status status="PASS" starttime="20200929 23:17:33.351" endtime="20200929 23:17:33.352"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:33.353" level="INFO">Selecting options from selection list 'salestarget' by value 65000.</msg>
+<status status="PASS" starttime="20200929 23:17:33.353" endtime="20200929 23:17:33.447"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:33.448" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:33.447" endtime="20200929 23:17:33.878"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:32.966" endtime="20200929 23:17:33.879"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:32.966" endtime="20200929 23:17:33.879"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Dorie', 'Last Name': 'Batistelli', 'Sales': 42450, 'Sales Target': 95000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:33.880" level="INFO">Typing text 'Dorie' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:33.880" endtime="20200929 23:17:34.005"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:34.006" level="INFO">Typing text 'Batistelli' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:34.005" endtime="20200929 23:17:34.130"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:34.131" level="INFO">Typing text '42450' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:34.131" endtime="20200929 23:17:34.253"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:34.254" level="INFO">${target_as_string} = 95000</msg>
+<status status="PASS" starttime="20200929 23:17:34.253" endtime="20200929 23:17:34.254"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:34.255" level="INFO">Selecting options from selection list 'salestarget' by value 95000.</msg>
+<status status="PASS" starttime="20200929 23:17:34.254" endtime="20200929 23:17:34.342"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:34.343" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:34.343" endtime="20200929 23:17:34.761"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:33.879" endtime="20200929 23:17:34.762"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:33.879" endtime="20200929 23:17:34.762"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Abra', 'Last Name': 'Heap', 'Sales': 5937, 'Sales Target': 100000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:34.764" level="INFO">Typing text 'Abra' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:34.764" endtime="20200929 23:17:34.887"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:34.888" level="INFO">Typing text 'Heap' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:34.887" endtime="20200929 23:17:35.014"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:35.015" level="INFO">Typing text '5937' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:35.015" endtime="20200929 23:17:35.135"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:35.136" level="INFO">${target_as_string} = 100000</msg>
+<status status="PASS" starttime="20200929 23:17:35.135" endtime="20200929 23:17:35.136"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:35.136" level="INFO">Selecting options from selection list 'salestarget' by value 100000.</msg>
+<status status="PASS" starttime="20200929 23:17:35.136" endtime="20200929 23:17:35.227"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:35.228" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:35.228" endtime="20200929 23:17:36.332"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:34.763" endtime="20200929 23:17:36.332"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:34.763" endtime="20200929 23:17:36.332"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Petronille', 'Last Name': 'Lesor', 'Sales': 54805, 'Sales Target': 85000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:36.334" level="INFO">Typing text 'Petronille' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:36.333" endtime="20200929 23:17:36.467"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:36.468" level="INFO">Typing text 'Lesor' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:36.468" endtime="20200929 23:17:36.584"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:36.585" level="INFO">Typing text '54805' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:36.584" endtime="20200929 23:17:36.700"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:36.700" level="INFO">${target_as_string} = 85000</msg>
+<status status="PASS" starttime="20200929 23:17:36.700" endtime="20200929 23:17:36.701"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:36.701" level="INFO">Selecting options from selection list 'salestarget' by value 85000.</msg>
+<status status="PASS" starttime="20200929 23:17:36.701" endtime="20200929 23:17:36.784"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:36.784" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:36.784" endtime="20200929 23:17:36.983"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:36.333" endtime="20200929 23:17:36.983"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:36.333" endtime="20200929 23:17:36.984"></status>
+</kw>
+<kw name="${salesRep} = {'First Name': 'Vincenty', 'Last Name': 'Stannering', 'Sales': 109884, 'Sales Target': 30000}" type="foritem">
+<kw name="Fill And Submit The Form For One Person">
+<arguments>
+<arg>${salesRep}</arg>
+</arguments>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>firstname</arg>
+<arg>${salesRep}[First Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:36.990" level="INFO">Typing text 'Vincenty' into text field 'firstname'.</msg>
+<status status="PASS" starttime="20200929 23:17:36.985" endtime="20200929 23:17:37.135"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>lastname</arg>
+<arg>${salesRep}[Last Name]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:37.136" level="INFO">Typing text 'Stannering' into text field 'lastname'.</msg>
+<status status="PASS" starttime="20200929 23:17:37.136" endtime="20200929 23:17:37.272"></status>
+</kw>
+<kw name="Input Text" library="RPA.Browser">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>salesresult</arg>
+<arg>${salesRep}[Sales]</arg>
+</arguments>
+<msg timestamp="20200929 23:17:37.273" level="INFO">Typing text '109884' into text field 'salesresult'.</msg>
+<status status="PASS" starttime="20200929 23:17:37.273" endtime="20200929 23:17:37.395"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${salesRep}[Sales Target]</arg>
+</arguments>
+<assign>
+<var>${target_as_string}</var>
+</assign>
+<msg timestamp="20200929 23:17:37.396" level="INFO">${target_as_string} = 30000</msg>
+<status status="PASS" starttime="20200929 23:17:37.395" endtime="20200929 23:17:37.396"></status>
+</kw>
+<kw name="Select From List By Value" library="RPA.Browser">
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<arguments>
+<arg>salestarget</arg>
+<arg>${target_as_string}</arg>
+</arguments>
+<msg timestamp="20200929 23:17:37.397" level="INFO">Selecting options from selection list 'salestarget' by value 30000.</msg>
+<status status="PASS" starttime="20200929 23:17:37.397" endtime="20200929 23:17:37.492"></status>
+</kw>
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Submit</arg>
+</arguments>
+<msg timestamp="20200929 23:17:37.492" level="INFO">Clicking button 'Submit'.</msg>
+<status status="PASS" starttime="20200929 23:17:37.492" endtime="20200929 23:17:37.933"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:36.984" endtime="20200929 23:17:37.934"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:36.984" endtime="20200929 23:17:37.934"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:53.931" endtime="20200929 23:17:37.934"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:53.900" endtime="20200929 23:17:37.935"></status>
+</kw>
+<kw name="Collect The Results">
+<kw name="Capture Element Screenshot" library="RPA.Browser">
+<doc>Captures a screenshot from the element identified by ``locator`` and embeds it into log file.</doc>
+<arguments>
+<arg>css:div.sales-summary</arg>
+</arguments>
+<msg timestamp="20200929 23:17:38.073" level="INFO" html="yes">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;img alt="screenshot" class="robot-seleniumlibrary-screenshot" src="data:image/png;base64,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" width="400px"&gt;</msg>
+<status status="PASS" starttime="20200929 23:17:37.936" endtime="20200929 23:17:38.074"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:37.935" endtime="20200929 23:17:38.075"></status>
+</kw>
+<kw name="Export The Table As A PDF">
+<kw name="Wait Until Element Is Visible" library="RPA.Browser">
+<doc>Waits until the element ``locator`` is visible.</doc>
+<arguments>
+<arg>id:sales-results</arg>
+</arguments>
+<status status="PASS" starttime="20200929 23:17:38.076" endtime="20200929 23:17:38.112"></status>
+</kw>
+<kw name="Get Element Attribute" library="RPA.Browser">
+<doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
+<arguments>
+<arg>id:sales-results</arg>
+<arg>outerHTML</arg>
+</arguments>
+<assign>
+<var>${sales_results_html}</var>
+</assign>
+<msg timestamp="20200929 23:17:38.132" level="INFO">${sales_results_html} = &lt;div id="sales-results"&gt;&lt;table class="table table-dark table-striped"&gt;&lt;thead&gt;&lt;tr&gt;&lt;th width="250" scope="col"&gt;Name&lt;/th&gt;&lt;th width="250" scope="col"&gt;Target&lt;/th&gt;&lt;th width="250" scope="col"&gt;Result&lt;/th&gt;&lt;th ...</msg>
+<status status="PASS" starttime="20200929 23:17:38.113" endtime="20200929 23:17:38.132"></status>
+</kw>
+<kw name="Does Directory Exist" library="RPA.FileSystem">
+<doc>Returns True if the given directory exists, False if not.</doc>
+<arguments>
+<arg>/home/yeh/Python_projRoot/robotsparebin-complete${/}output</arg>
+</arguments>
+<assign>
+<var>${directory_exists}</var>
+</assign>
+<msg timestamp="20200929 23:17:38.134" level="INFO">${directory_exists} = True</msg>
+<status status="PASS" starttime="20200929 23:17:38.133" endtime="20200929 23:17:38.134"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${directory_exists}==False</arg>
+<arg>Create directory</arg>
+<arg>/home/yeh/Python_projRoot/robotsparebin-complete${/}output</arg>
+</arguments>
+<status status="PASS" starttime="20200929 23:17:38.134" endtime="20200929 23:17:38.135"></status>
+</kw>
+<kw name="Html To Pdf" library="RPA.PDF">
+<doc>Use HTML content to generate PDF file.</doc>
+<arguments>
+<arg>${sales_results_html}</arg>
+<arg>/home/yeh/Python_projRoot/robotsparebin-complete${/}output${/}sales_results.pdf</arg>
+</arguments>
+<status status="PASS" starttime="20200929 23:17:38.135" endtime="20200929 23:17:38.148"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:38.075" endtime="20200929 23:17:38.149"></status>
+</kw>
+<kw name="Log Out And Close The Browser" type="teardown">
+<kw name="Click Button" library="RPA.Browser">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Log out</arg>
+</arguments>
+<msg timestamp="20200929 23:17:38.150" level="INFO">Clicking button 'Log out'.</msg>
+<status status="PASS" starttime="20200929 23:17:38.150" endtime="20200929 23:17:38.239"></status>
+</kw>
+<kw name="Close Browser" library="RPA.Browser">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20200929 23:17:38.239" endtime="20200929 23:17:38.300"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:17:38.149" endtime="20200929 23:17:38.301"></status>
+</kw>
+<status status="PASS" starttime="20200929 23:16:49.727" endtime="20200929 23:17:38.301" critical="yes"></status>
+</test>
+<doc>Robot to enter weekly sales data into the RobotSpareBin Industries Intranet.</doc>
+<status status="PASS" starttime="20200929 23:16:49.048" endtime="20200929 23:17:38.304"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0">Critical Tasks</stat>
+<stat pass="1" fail="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" id="s1" name="Tasks">Tasks</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

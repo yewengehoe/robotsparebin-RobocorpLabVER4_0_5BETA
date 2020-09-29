@@ -6,7 +6,7 @@ tasks:
       - robot
       - --report
       - NONE
-      - -d
+      - --outputdir
       - output
       - --logtitle
       - Task log
@@ -19,4 +19,7 @@ ignoreFiles:
 PATH:
   - .
 PYTHONPATH:
-  - .
+  - variables
+  - libraries
+  - recources
+   
